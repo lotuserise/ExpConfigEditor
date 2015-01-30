@@ -27,33 +27,19 @@ except AttributeError:
 class Ui_MainWindow(object):
 	def setupUi(self, MainWindow):
 		MainWindow.setObjectName(_fromUtf8("MainWindow"))
-		MainWindow.resize(1200, 1000)
+		MainWindow.resize(1000, 680)
 		self.centralwidget = QtGui.QWidget(MainWindow)
 		self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
 		self.tabWidget = QtGui.QTabWidget(self.centralwidget)
-		self.tabWidget.setGeometry(QtCore.QRect(50, 10, 731, 601))
+		self.tabWidget.setGeometry(QtCore.QRect(10, 50, 731, 601))
 		self.tabWidget.setTabPosition(QtGui.QTabWidget.North)
 		self.tabWidget.setIconSize(QtCore.QSize(20, 20))
 		self.tabWidget.setDocumentMode(False)
 		self.tabWidget.setTabsClosable(False)
-		self.tabWidget.resize(1200,1000)
+		self.tabWidget.resize(820,600)
 		self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
 		self.tab = QtGui.QWidget()
 		self.tab.setObjectName(_fromUtf8("tab"))
-		self.tableWidget = QtGui.QTableWidget(self.tab)
-		self.tableWidget.resize(2000,1200)
-		self.tableWidget.setGeometry(QtCore.QRect(10, 10, 711, 561))
-		self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
-		self.tableWidget.setColumnCount(3)
-		self.tableWidget.setRowCount(23)
-
-		#ComboBox_setting
-		self.MyCombo = QtGui.QComboBox()
-		self.MyCombo.addItem("IMPERX")
-		self.MyCombo.addItem("MPCCD")
-		self.tableWidget.setCellWidget(0,0,self.MyCombo)
-
-		#tab_setting
 		self.tabWidget.addTab(self.tab, _fromUtf8(""))
 		self.tab_2 = QtGui.QWidget()
 		self.tab_2.setObjectName(_fromUtf8("tab_2"))
@@ -73,6 +59,39 @@ class Ui_MainWindow(object):
 		self.tab_7 = QtGui.QWidget()
 		self.tab_7.setObjectName(_fromUtf8("tab_7"))
 		self.tabWidget.addTab(self.tab_7, _fromUtf8(""))
+		self.tab_8 = QtGui.QWidget()
+		self.tab_8.setObjectName(_fromUtf8("tab_8"))
+		self.tabWidget.addTab(self.tab_7, _fromUtf8(""))
+
+		self.tableWidget = QtGui.QTableWidget(self.tab)
+		self.tableWidget.setGeometry(QtCore.QRect(10, 10, 731, 601))
+		self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
+		self.tableWidget.setColumnCount(23)
+		self.tableWidget.setRowCount(23)
+		self.tableWidget.resize(800,600)
+
+		#setting pushButton
+		self.pushButton = QtGui.QPushButton(self.centralwidget)
+		self.pushButton.setGeometry(QtCore.QRect(850, 520, 100, 50))
+		self.pushButton.setObjectName(_fromUtf8("pushButton"))
+		MainWindow.setCentralWidget(self.centralwidget)
+
+		self.pushButton_1 = QtGui.QPushButton(self.centralwidget)
+		self.pushButton_1.setGeometry(QtCore.QRect(850, 600, 100, 50))
+		self.pushButton_1.setObjectName(_fromUtf8("pushButton"))
+		MainWindow.setCentralWidget(self.centralwidget)
+
+		#ComboBox_setting
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.addItem("")
+		self.MyCombo.addItem("")
+		self.tableWidget.setCellWidget(0,0,self.MyCombo)
+
+		for combo in range(0,22):
+			self.MyCombo = QtGui.QComboBox()
+			self.MyCombo.addItem("")
+			self.MyCombo.addItem("")
+			self.tableWidget.setCellWidget(combo,0,self.MyCombo)
 
 		MainWindow.setCentralWidget(self.centralwidget)
 		self.menubar = QtGui.QMenuBar(MainWindow)
@@ -90,18 +109,24 @@ class Ui_MainWindow(object):
 	def retranslateUi(self, MainWindow):
 		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "SSCH", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "ST1", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "ST2", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "ST4c", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "ST5", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "ST6", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7), _translate("MainWindow", "CCSR", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "FE/TC", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "ST1", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "ST2", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "ST4c", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "ST5", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7), _translate("MainWindow", "ST6", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_8), _translate("MainWindow", "CCSR", None))
 
 		config_header = csv.reader(open('exp.csv','rt'), delimiter=',')
 		cals=list(config_header)
 		self.tableWidget.setColumnCount(len(cals))
+#		self.tableWidget.setRowCount(len(cals))
 		for data in cals:
 			setrowdata = self.tableWidget.setVerticalHeaderLabels(data)
+#			setrowdata = self.tableWidget.setHorizontalHeaderLabels(data)
+
+		self.pushButton.setText(_translate("MainWindow", "File Save", None))
+		self.pushButton_1.setText(_translate("MainWindow", "File Read", None))
 
 if __name__ == "__main__":
 	import sys
@@ -111,4 +136,3 @@ if __name__ == "__main__":
 	ui.setupUi(MainWindow)
 	MainWindow.show()
 	sys.exit(app.exec_())
-
