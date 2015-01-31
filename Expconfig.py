@@ -9,6 +9,15 @@
 
 from PyQt4 import QtCore, QtGui
 import csv
+import string
+import datetime
+import traceback
+import os.path
+import sys
+import logging
+from functools import reduce
+import configparser
+
 
 try:
 	_fromUtf8 = QtCore.QString.fromUtf8
@@ -70,7 +79,13 @@ class Ui_MainWindow(object):
 		self.tableWidget.setRowCount(23)
 		self.tableWidget.resize(800,600)
 
-		#setting pushButton
+		#label setting
+		self.label = QtGui.QLabel(self.centralwidget)
+		self.label.setGeometry(QtCore.QRect(10, 10, 181, 41))
+		self.label.setWordWrap(False)
+		self.label.setObjectName(_fromUtf8("label"))
+
+		#pushButton setting
 		self.pushButton = QtGui.QPushButton(self.centralwidget)
 		self.pushButton.setGeometry(QtCore.QRect(850, 520, 100, 50))
 		self.pushButton.setObjectName(_fromUtf8("pushButton"))
@@ -81,17 +96,20 @@ class Ui_MainWindow(object):
 		self.pushButton_1.setObjectName(_fromUtf8("pushButton"))
 		MainWindow.setCentralWidget(self.centralwidget)
 
-		#ComboBox_setting
-		self.MyCombo = QtGui.QComboBox()
-		self.MyCombo.addItem("")
-		self.MyCombo.addItem("")
-		self.tableWidget.setCellWidget(0,0,self.MyCombo)
-
+		#ComboBox Copy
 		for combo in range(0,22):
 			self.MyCombo = QtGui.QComboBox()
-			self.MyCombo.addItem("")
-			self.MyCombo.addItem("")
 			self.tableWidget.setCellWidget(combo,0,self.MyCombo)
+			
+		config = configparser.ConfigParser()
+		config.read('config.ini')
+		config.sections()
+		detector1=config['DetectorName']['Detector1']
+		detector2=config['DetectorName']['Detector2']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.addItem (detector1)
+		self.MyCombo.addItem (detector2)
+		self.tableWidget.setCellWidget(0,0,self.MyCombo)
 
 		MainWindow.setCentralWidget(self.centralwidget)
 		self.menubar = QtGui.QMenuBar(MainWindow)
@@ -107,7 +125,11 @@ class Ui_MainWindow(object):
 		QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
 	def retranslateUi(self, MainWindow):
+
+		#create Window
 		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+
+		#create Tab
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "SSCH", None))
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "FE/TC", None))
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "ST1", None))
@@ -117,6 +139,7 @@ class Ui_MainWindow(object):
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7), _translate("MainWindow", "ST6", None))
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_8), _translate("MainWindow", "CCSR", None))
 
+		#SetColumLabel
 		config_header = csv.reader(open('exp.csv','rt'), delimiter=',')
 		cals=list(config_header)
 		self.tableWidget.setColumnCount(len(cals))
@@ -125,8 +148,12 @@ class Ui_MainWindow(object):
 			setrowdata = self.tableWidget.setVerticalHeaderLabels(data)
 #			setrowdata = self.tableWidget.setHorizontalHeaderLabels(data)
 
+		#SetRowLabel
+		#Create Button
 		self.pushButton.setText(_translate("MainWindow", "File Save", None))
 		self.pushButton_1.setText(_translate("MainWindow", "File Read", None))
+		self.label.setText(_translate("MainWindow", "Exp.Info.", None))
+
 
 if __name__ == "__main__":
 	import sys
