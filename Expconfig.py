@@ -48,6 +48,8 @@ class Ui_MainWindow(object):
 		self.tabWidget.resize(820,600)
 		self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
 		self.tab = QtGui.QWidget()
+
+
 		self.tab.setObjectName(_fromUtf8("tab"))
 		self.tabWidget.addTab(self.tab, _fromUtf8(""))
 		self.tab_2 = QtGui.QWidget()
@@ -70,9 +72,9 @@ class Ui_MainWindow(object):
 		self.tabWidget.addTab(self.tab_7, _fromUtf8(""))
 		self.tab_8 = QtGui.QWidget()
 		self.tab_8.setObjectName(_fromUtf8("tab_8"))
-		self.tabWidget.addTab(self.tab_7, _fromUtf8(""))
-
+		self.tabWidget.addTab(self.tab_8, _fromUtf8(""))
 		self.tableWidget = QtGui.QTableWidget(self.tab)
+
 		self.tableWidget.setGeometry(QtCore.QRect(10, 10, 731, 601))
 		self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
 		self.tableWidget.setColumnCount(23)
@@ -96,20 +98,24 @@ class Ui_MainWindow(object):
 		self.pushButton_1.setObjectName(_fromUtf8("pushButton"))
 		MainWindow.setCentralWidget(self.centralwidget)
 
-		#ComboBox Copy
 		for combo in range(0,22):
 			self.MyCombo = QtGui.QComboBox()
 			self.tableWidget.setCellWidget(combo,0,self.MyCombo)
-			
+
+		self.MyCombo = QtGui.QComboBox()
 		config = configparser.ConfigParser()
-		config.read('config.ini')
+		config.read('ssch.ini')
 		config.sections()
-		detector1=config['DetectorName']['Detector1']
-		detector2=config['DetectorName']['Detector2']
+		detector1=config['kame']['DetectorName']
+
 		self.MyCombo = QtGui.QComboBox()
 		self.MyCombo.addItem (detector1)
-		self.MyCombo.addItem (detector2)
 		self.tableWidget.setCellWidget(0,0,self.MyCombo)
+
+		detector2=config['kame']['Type[Camera]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.addItem (detector2)
+		self.tableWidget.setCellWidget(1,0,self.MyCombo)
 
 		MainWindow.setCentralWidget(self.centralwidget)
 		self.menubar = QtGui.QMenuBar(MainWindow)
@@ -139,21 +145,29 @@ class Ui_MainWindow(object):
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7), _translate("MainWindow", "ST6", None))
 		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_8), _translate("MainWindow", "CCSR", None))
 
-		#SetColumLabel
-		config_header = csv.reader(open('exp.csv','rt'), delimiter=',')
-		cals=list(config_header)
-		self.tableWidget.setColumnCount(len(cals))
-#		self.tableWidget.setRowCount(len(cals))
-		for data in cals:
-			setrowdata = self.tableWidget.setVerticalHeaderLabels(data)
-#			setrowdata = self.tableWidget.setHorizontalHeaderLabels(data)
+		#Set Label
+		vertical_header = csv.reader(open('exp.csv','rt'), delimiter=',')
+		cals1=list(vertical_header)
+		self.tableWidget.setColumnCount(len(cals1))
+		for data1 in cals1:
+			setcaldata1 = self.tableWidget.setVerticalHeaderLabels(data1)
 
-		#SetRowLabel
+		horizontal_header = csv.reader(open('horizon.csv','rt'), delimiter=',')
+		cals2=list(horizontal_header)
+		self.tableWidget.setColumnCount(5)
+		for data2 in cals2:
+			setcaldata2 =self.tableWidget.setHorizontalHeaderLabels(data2)
+
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.addItem("IMPERX")
+		self.MyCombo.addItem("MPCCD")         
+		self.tableWidget.setCellWidget(0,1,self.MyCombo)
+		#ComboBox Copy
+
 		#Create Button
 		self.pushButton.setText(_translate("MainWindow", "File Save", None))
 		self.pushButton_1.setText(_translate("MainWindow", "File Read", None))
 		self.label.setText(_translate("MainWindow", "Exp.Info.", None))
-
 
 if __name__ == "__main__":
 	import sys
