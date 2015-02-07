@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
 		self.tabWidget.setIconSize(QtCore.QSize(20, 20))
 		self.tabWidget.setDocumentMode(False)
 		self.tabWidget.setTabsClosable(False)
-		self.tabWidget.resize(820,600)
+		self.tabWidget.resize(900,700)
 		self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
 		self.tab = QtGui.QWidget()
 
@@ -89,12 +89,12 @@ class Ui_MainWindow(object):
 
 		#pushButton setting
 		self.pushButton = QtGui.QPushButton(self.centralwidget)
-		self.pushButton.setGeometry(QtCore.QRect(850, 520, 100, 50))
+		self.pushButton.setGeometry(QtCore.QRect(950, 520, 100, 50))
 		self.pushButton.setObjectName(_fromUtf8("pushButton"))
 		MainWindow.setCentralWidget(self.centralwidget)
 
 		self.pushButton_1 = QtGui.QPushButton(self.centralwidget)
-		self.pushButton_1.setGeometry(QtCore.QRect(850, 600, 100, 50))
+		self.pushButton_1.setGeometry(QtCore.QRect(950, 600, 100, 50))
 		self.pushButton_1.setObjectName(_fromUtf8("pushButton"))
 		MainWindow.setCentralWidget(self.centralwidget)
 
@@ -104,18 +104,34 @@ class Ui_MainWindow(object):
 
 		self.MyCombo = QtGui.QComboBox()
 		config = configparser.ConfigParser()
-		config.read('ssch.ini')
+		config.read('fe_tc.ini')
 		config.sections()
-		detector1=config['kame']['DetectorName']
 
+		detector1=config['SCM1']['DetectorName']
+		#Disable of Combobox
+		self.MyCombo.setEnabled(False)
 		self.MyCombo = QtGui.QComboBox()
 		self.MyCombo.addItem (detector1)
 		self.tableWidget.setCellWidget(0,0,self.MyCombo)
 
-		detector2=config['kame']['Type[Camera]']
+		detector2=config['SCM1']['Type[Camera]']
 		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
 		self.MyCombo.addItem (detector2)
 		self.tableWidget.setCellWidget(1,0,self.MyCombo)
+
+		detector3=config['SCM1']['HostName[Camera]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
+		self.MyCombo.addItem (detector3)
+		self.tableWidget.setCellWidget(2,0,self.MyCombo)
+
+		detector4=config['SCM1']['HostName[LossLess]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
+		self.MyCombo.addItem (detector4)
+		self.tableWidget.setCellWidget(3,0,self.MyCombo)
+
 
 		MainWindow.setCentralWidget(self.centralwidget)
 		self.menubar = QtGui.QMenuBar(MainWindow)
@@ -154,7 +170,7 @@ class Ui_MainWindow(object):
 
 		horizontal_header = csv.reader(open('horizon.csv','rt'), delimiter=',')
 		cals2=list(horizontal_header)
-		self.tableWidget.setColumnCount(5)
+		self.tableWidget.setColumnCount(20)
 		for data2 in cals2:
 			setcaldata2 =self.tableWidget.setHorizontalHeaderLabels(data2)
 
@@ -166,6 +182,7 @@ class Ui_MainWindow(object):
 
 		#Create Button
 		self.pushButton.setText(_translate("MainWindow", "File Save", None))
+		self.pushButton.setEnabled(False)
 		self.pushButton_1.setText(_translate("MainWindow", "File Read", None))
 		self.label.setText(_translate("MainWindow", "Exp.Info.", None))
 
