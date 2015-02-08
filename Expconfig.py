@@ -132,6 +132,35 @@ class Ui_MainWindow(object):
 		self.MyCombo.addItem (detector4)
 		self.tableWidget.setCellWidget(3,0,self.MyCombo)
 
+		detector4=config['SCM1']['HostName[Storage]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
+		self.MyCombo.addItem (detector4)
+		self.tableWidget.setCellWidget(4,0,self.MyCombo)
+
+		detector4=config['SCM1']['Object[CamerServer]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
+		self.MyCombo.addItem (detector4)
+		self.tableWidget.setCellWidget(5,0,self.MyCombo)
+
+		detector4=config['SCM1']['Object[VME_Board]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
+		self.MyCombo.addItem (detector4)
+		self.tableWidget.setCellWidget(6,0,self.MyCombo)
+
+		detector4=config['SCM1']['Object[CameraSelector]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
+		self.MyCombo.addItem (detector4)
+		self.tableWidget.setCellWidget(7,0,self.MyCombo)
+
+		detector4=config['SCM1']['Object[Trigger]']
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.setEnabled(False)
+		self.MyCombo.addItem (detector4)
+		self.tableWidget.setCellWidget(8,0,self.MyCombo)
 
 		MainWindow.setCentralWidget(self.centralwidget)
 		self.menubar = QtGui.QMenuBar(MainWindow)
@@ -168,11 +197,20 @@ class Ui_MainWindow(object):
 		for data1 in cals1:
 			setcaldata1 = self.tableWidget.setVerticalHeaderLabels(data1)
 
-		horizontal_header = csv.reader(open('horizon.csv','rt'), delimiter=',')
-		cals2=list(horizontal_header)
-		self.tableWidget.setColumnCount(20)
-		for data2 in cals2:
-			setcaldata2 =self.tableWidget.setHorizontalHeaderLabels(data2)
+		horizontal_header = open("exp_2015.csv",'rt')
+		lines = horizontal_header.readlines()
+		horizontal_header.close()
+		addr = lines[1]
+		addr1=addr.split(",")
+		cals2 = list(addr1)
+		self.tableWidget.setColumnCount(len(cals2))
+		setcaldata2 =self.tableWidget.setHorizontalHeaderLabels((cals2[0],cals2[1],cals2[2],cals2[3],cals2[4]))
+
+#		horizontal_header = csv.reader(open('horizon.csv','rt'), delimiter=',')
+#		cals2=list(horizontal_header)
+#		self.tableWidget.setColumnCount(20)
+#		for data2 in cals2:
+#			setcaldata2 =self.tableWidget.setHorizontalHeaderLabels(data2)
 
 		self.MyCombo = QtGui.QComboBox()
 		self.MyCombo.addItem("IMPERX")
