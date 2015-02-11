@@ -36,7 +36,7 @@ except AttributeError:
 class Ui_MainWindow(object):
 	def setupUi(self, MainWindow):
 		MainWindow.setObjectName(_fromUtf8("MainWindow"))
-		MainWindow.resize(1000, 680)
+		MainWindow.resize(1200, 680)
 		self.centralwidget = QtGui.QWidget(MainWindow)
 		self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
 		self.tabWidget = QtGui.QTabWidget(self.centralwidget)
@@ -48,33 +48,10 @@ class Ui_MainWindow(object):
 		self.tabWidget.resize(900,700)
 		self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
 		self.tab = QtGui.QWidget()
-
-
 		self.tab.setObjectName(_fromUtf8("tab"))
 		self.tabWidget.addTab(self.tab, _fromUtf8(""))
-		self.tab_2 = QtGui.QWidget()
-		self.tab_2.setObjectName(_fromUtf8("tab_2"))
-		self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
-		self.tab_3 = QtGui.QWidget()
-		self.tab_3.setObjectName(_fromUtf8("tab_3"))
-		self.tabWidget.addTab(self.tab_3, _fromUtf8(""))
-		self.tab_4 = QtGui.QWidget()
-		self.tab_4.setObjectName(_fromUtf8("tab_4"))
-		self.tabWidget.addTab(self.tab_4, _fromUtf8(""))
-		self.tab_5 = QtGui.QWidget()
-		self.tab_5.setObjectName(_fromUtf8("tab_5"))
-		self.tabWidget.addTab(self.tab_5, _fromUtf8(""))
-		self.tab_6 = QtGui.QWidget()
-		self.tab_6.setObjectName(_fromUtf8("tab_6"))
-		self.tabWidget.addTab(self.tab_6, _fromUtf8(""))
-		self.tab_7 = QtGui.QWidget()
-		self.tab_7.setObjectName(_fromUtf8("tab_7"))
-		self.tabWidget.addTab(self.tab_7, _fromUtf8(""))
-		self.tab_8 = QtGui.QWidget()
-		self.tab_8.setObjectName(_fromUtf8("tab_8"))
-		self.tabWidget.addTab(self.tab_8, _fromUtf8(""))
-		self.tableWidget = QtGui.QTableWidget(self.tab)
 
+		self.tableWidget = QtGui.QTableWidget(self.tab)
 		self.tableWidget.setGeometry(QtCore.QRect(10, 10, 731, 601))
 		self.tableWidget.setObjectName(_fromUtf8("tableWidget"))
 		self.tableWidget.setColumnCount(23)
@@ -98,6 +75,35 @@ class Ui_MainWindow(object):
 		self.pushButton_1.setObjectName(_fromUtf8("pushButton"))
 		MainWindow.setCentralWidget(self.centralwidget)
 
+		MainWindow.setCentralWidget(self.centralwidget)
+		self.menubar = QtGui.QMenuBar(MainWindow)
+		self.menubar.setGeometry(QtCore.QRect(0, 0, 819, 24))
+		self.menubar.setObjectName(_fromUtf8("menubar"))
+		MainWindow.setMenuBar(self.menubar)
+		self.statusbar = QtGui.QStatusBar(MainWindow)
+		self.statusbar.setObjectName(_fromUtf8("statusbar"))
+		MainWindow.setStatusBar(self.statusbar)
+ 
+ 		#Load Function
+		self.retranslateUi(MainWindow)
+		self.LoadiniComboBox(MainWindow)
+		self.CreateTab(MainWindow)
+		self.LoadTale(MainWindow)
+		self.tabWidget.setCurrentIndex(0)
+		QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+	def retranslateUi(self, MainWindow):
+
+		#create Window
+		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+
+		#Create Button
+		self.pushButton.setText(_translate("MainWindow", "File Save", None))
+		self.pushButton.setEnabled(False)
+		self.pushButton_1.setText(_translate("MainWindow", "File Read", None))
+		self.label.setText(_translate("MainWindow", "Exp.Info.", None))
+
+	def LoadiniComboBox(self, MainWindow):
 		for combo in range(0,22):
 			self.MyCombo = QtGui.QComboBox()
 			self.tableWidget.setCellWidget(combo,0,self.MyCombo)
@@ -134,7 +140,7 @@ class Ui_MainWindow(object):
 
 		detector4=config['SCM1']['HostName[Storage]']
 		self.MyCombo = QtGui.QComboBox()
-		self.MyCombo.setEnabled(False)
+#		self.MyCombo.setEnabled(False)
 		self.MyCombo.addItem (detector4)
 		self.tableWidget.setCellWidget(4,0,self.MyCombo)
 
@@ -162,49 +168,56 @@ class Ui_MainWindow(object):
 		self.MyCombo.addItem (detector4)
 		self.tableWidget.setCellWidget(8,0,self.MyCombo)
 
-		MainWindow.setCentralWidget(self.centralwidget)
-		self.menubar = QtGui.QMenuBar(MainWindow)
-		self.menubar.setGeometry(QtCore.QRect(0, 0, 819, 24))
-		self.menubar.setObjectName(_fromUtf8("menubar"))
-		MainWindow.setMenuBar(self.menubar)
-		self.statusbar = QtGui.QStatusBar(MainWindow)
-		self.statusbar.setObjectName(_fromUtf8("statusbar"))
-		MainWindow.setStatusBar(self.statusbar)
+	def StorageSelect(self, MainWindow):
+		pass
 
-		self.retranslateUi(MainWindow)
-		self.tabWidget.setCurrentIndex(0)
-		QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-	def retranslateUi(self, MainWindow):
-
-		#create Window
-		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-
+	def CreateTab(self, MainWindow):
 		#create Tab
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "SSCH", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "FE/TC", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "ST1", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "ST2", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("MainWindow", "ST4c", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_6), _translate("MainWindow", "ST5", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7), _translate("MainWindow", "ST6", None))
-		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_8), _translate("MainWindow", "CCSR", None))
+		self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "TEST", None))
 
-		#Set Label
-		vertical_header = csv.reader(open('exp.csv','rt'), delimiter=',')
-		cals1=list(vertical_header)
-		self.tableWidget.setColumnCount(len(cals1))
-		for data1 in cals1:
-			setcaldata1 = self.tableWidget.setVerticalHeaderLabels(data1)
+	def LoadTale(self, MainWindow):
+		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+		#Set Hedder_Label
 
-		horizontal_header = open("exp_2015.csv",'rt')
-		lines = horizontal_header.readlines()
-		horizontal_header.close()
-		addr = lines[1]
-		addr1=addr.split(",")
-		cals2 = list(addr1)
-		self.tableWidget.setColumnCount(len(cals2))
-		setcaldata2 =self.tableWidget.setHorizontalHeaderLabels((cals2[0],cals2[1],cals2[2],cals2[3],cals2[4]))
+		#onelinerでまとめる場合（リスト配列化） 
+		data = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
+
+		#set VerticalHeadderLabel
+		setVerticalLabels = self.tableWidget.setVerticalHeaderLabels((data[1][0],data[1][1],data[1][2],data[1][3],data[1][4],
+			data[1][5],data[1][6],data[1][7],data[1][8],data[1][9],data[1][10],data[1][11],data[1][12],data[1][13],
+			data[1][14],data[1][15],data[1][16],data[1][17],data[1][18],data[1][19],data[1][20],data[1][21],data[1][22]))
+
+		#set HorizonalHeadderLabel
+
+		horizontal_header=[]
+		for a in range(2,len(data)):
+			list1=data[a][0]
+			horizontal_header.append(list1)
+
+		SetHorizontalLabels = self.tableWidget.setHorizontalHeaderLabels(horizontal_header)
+		self.tableWidget.setColumnCount((len(data)-2))
+
+#		exp_csv = open("exp_2015.csv",'rt')
+#		lines = exp_csv.readlines()
+#		exp_csv.close()
+#		addr = lines[1]
+#		addr1=addr.split(",")
+#		vh = list(addr1)
+#		self.tableWidget.setColumnCount(len(cals2))
+
+#		setVerticalLabels=self.tableWidget.setVerticalHeaderLabels((vh[0],vh[1],vh[2],vh[3],vh[4],vh[5],vh[6],vh[7],
+#			vh[8],vh[9],vh[10],vh[11],vh[12],vh[13],vh[14],vh[15],vh[16],vh[17],vh[18],vh[19],vh[20],vh[21],vh[22]))
+
+#		addr = lines[2]
+#		addr1=addr.split(",")
+#		hl = list(addr1)
+#		setHorizontalLabels =self.tableWidget.setHorizontalHeaderLabels((hl[0],hl[1],hl[2],))
+
+#		vertical_header = csv.reader(open('exp.csv','rt'), delimiter=',')
+#		cals1=list(vertical_header)
+#		self.tableWidget.setColumnCount(len(cals1))
+#		for data1 in cals1:
+#			setcaldata1 = self.tableWidget.setVerticalHeaderLabels(data1)
 
 #		horizontal_header = csv.reader(open('horizon.csv','rt'), delimiter=',')
 #		cals2=list(horizontal_header)
@@ -212,17 +225,8 @@ class Ui_MainWindow(object):
 #		for data2 in cals2:
 #			setcaldata2 =self.tableWidget.setHorizontalHeaderLabels(data2)
 
-		self.MyCombo = QtGui.QComboBox()
-		self.MyCombo.addItem("IMPERX")
-		self.MyCombo.addItem("MPCCD")         
-		self.tableWidget.setCellWidget(0,1,self.MyCombo)
-		#ComboBox Copy
-
-		#Create Button
-		self.pushButton.setText(_translate("MainWindow", "File Save", None))
-		self.pushButton.setEnabled(False)
-		self.pushButton_1.setText(_translate("MainWindow", "File Read", None))
-		self.label.setText(_translate("MainWindow", "Exp.Info.", None))
+	def FileSave(self):
+		pass
 
 if __name__ == "__main__":
 	import sys
