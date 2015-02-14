@@ -113,35 +113,17 @@ class Ui_MainWindow(object):
 		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
 
 		#csvを配列化 
-		data = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
+		data1 = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
 
-
-		#DetectorList
-		detector_list=[]
-		for detector in range(0,len(data[2])):
-			dl=data[2][detector]
-			detector_list.append(dl)
-
-		for i in range(0,len(detector_list)-1):
-			self.MyCombo = QtGui.QComboBox()
-			self.MyCombo.addItem(detector_list[i])
-			self.MyCombo.setEnabled(False)
-			self.tableWidget.setCellWidget(i,0,self.MyCombo)
-
-		'''
-		detector_list=[]
-		for i in range(2,len(data)):
-			for j in range(0,len(data[2])):
-				dl=data[i][j]
-				detector_list.append(dl)
-
-		for i in range(0,len(detector_list)-1):
-			for j in range(0,len(detector_list[1])):
+		for i in range(2,len(data1)):
+			for j in range(0,len(data1[2])-1):
+				x = data1[i][j]
 				self.MyCombo = QtGui.QComboBox()
-				self.MyCombo.addItem(detector_list[i])
-				self.MyCombo.setEnabled(False)
-				self.tableWidget.setCellWidget(i,j,self.MyCombo)
-		'''
+				self.MyCombo.addItem(data1[i][j])
+				#1行目と2行目を省いてデータをセルに入力
+				self.tableWidget.setCellWidget(j,i-2,self.MyCombo)
+
+		data = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
 
 		#VerticalHeadderLabels
 		vertical_header=[]
