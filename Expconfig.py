@@ -35,6 +35,7 @@ except AttributeError:
 
 class Ui_MainWindow(object):
 	def setupUi(self, MainWindow):
+
 		MainWindow.setObjectName(_fromUtf8("MainWindow"))
 		MainWindow.resize(1200, 680)
 		self.centralwidget = QtGui.QWidget(MainWindow)
@@ -58,9 +59,22 @@ class Ui_MainWindow(object):
 		self.tableWidget.setRowCount(24)
 		self.tableWidget.resize(800,600)
 
+		#menubar
+		self.menubar = QtGui.QMenuBar(MainWindow)
+		self.menubar.setGeometry(QtCore.QRect(0, 0, 3000, 24))
+		self.menubar.setObjectName(_fromUtf8("menubar"))
+		self.menuFile = QtGui.QMenu(self.menubar)
+		self.menuFile.setObjectName(_fromUtf8("menuFile"))
+		self.menuLoad = QtGui.QMenu(self.menubar)
+		self.menuLoad.setObjectName(_fromUtf8("menuLoad"))
+		self.actionTest = QtGui.QAction(MainWindow)
+		self.actionTest.setObjectName(_fromUtf8("actionTest"))
+		self.menuFile.addAction(self.actionTest)
+		self.menubar.addAction(self.menuFile.menuAction())
+
 		#label setting
 		self.label = QtGui.QLabel(self.centralwidget)
-		self.label.setGeometry(QtCore.QRect(10, 10, 181, 41))
+		self.label.setGeometry(QtCore.QRect(10, 15, 181, 41))
 		self.label.setWordWrap(False)
 		self.label.setObjectName(_fromUtf8("label"))
 
@@ -69,6 +83,7 @@ class Ui_MainWindow(object):
 		self.pushButton.setGeometry(QtCore.QRect(950, 520, 100, 50))
 		self.pushButton.setObjectName(_fromUtf8("pushButton"))
 		MainWindow.setCentralWidget(self.centralwidget)
+		self.pushButton.clicked.connect(self.FileSave)
 
 		self.pushButton_1 = QtGui.QPushButton(self.centralwidget)
 		self.pushButton_1.setGeometry(QtCore.QRect(950, 600, 100, 50))
@@ -80,10 +95,10 @@ class Ui_MainWindow(object):
 		self.menubar.setGeometry(QtCore.QRect(0, 0, 819, 24))
 		self.menubar.setObjectName(_fromUtf8("menubar"))
 		MainWindow.setMenuBar(self.menubar)
-		self.statusbar = QtGui.QStatusBar(MainWindow)
+		self.statusbar = QtGui.QStatusBar(MainWindow )
 		self.statusbar.setObjectName(_fromUtf8("statusbar"))
 		MainWindow.setStatusBar(self.statusbar)
- 
+
  		#Load Function
 		self.retranslateUi(MainWindow)
 		self.CreateTab(MainWindow)
@@ -95,12 +110,15 @@ class Ui_MainWindow(object):
 
 		#Create Window
 		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-
 		#Create Button
 		self.pushButton.setText(_translate("MainWindow", "File Save", None))
-		self.pushButton.setEnabled(False)
 		self.pushButton_1.setText(_translate("MainWindow", "File Read", None))
 		self.label.setText(_translate("MainWindow", "Exp.Info.", None))
+
+		self.menuFile.setTitle(_translate("MainWindow", "File", None))
+		self.menuLoad.setTitle(_translate("MainWindow", "Load", None))
+		self.actionTest.setText(_translate("MainWindow", "Load", None))
+		self.actionTest.setText(_translate("MainWindow", "Save", None))
 
 	def StorageSelect(self, MainWindow):
 		pass
@@ -115,6 +133,7 @@ class Ui_MainWindow(object):
 		#csvを配列化 
 		data1 = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
 
+		#csv read
 		for i in range(2,len(data1)):
 			for j in range(0,len(data1[2])-1):
 				x = data1[i][j]
@@ -122,6 +141,15 @@ class Ui_MainWindow(object):
 				self.MyCombo.addItem(data1[i][j])
 				#1行目と2行目を省いてデータをセルに入力
 				self.tableWidget.setCellWidget(j,i-2,self.MyCombo)
+
+		#iniファイルでStorageの設定を行う
+		storage_setting=[]
+		self.MyCombo = QtGui.QComboBox()
+		self.MyCombo.addItem('1')
+		self.MyCombo.addItem('2')
+		self.MyCombo.addItem('3')
+		self.MyCombo.addItem('xqstrg01')
+		self.tableWidget.setCellWidget(4,0,self.MyCombo)
 
 		data = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
 
@@ -144,6 +172,9 @@ class Ui_MainWindow(object):
 		self.tableWidget.setColumnCount((len(data)-2))
 
 	def FileSave(self):
+		savefile = QtGui.QFileDialog.getSaveFileName(None, 'Save Tab Axis As...', './', "CSV File (*.csv)" )
+
+	def ComboSelect(self):
 		pass
 
 if __name__ == "__main__":
