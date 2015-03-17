@@ -17,8 +17,6 @@ import sys
 import logging
 from functools import reduce
 import configparser
-
-
 try:
 	_fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -71,7 +69,7 @@ class Ui_MainWindow(object):
 		self.actionTest.setObjectName(_fromUtf8("actionTest"))
 		self.menuFile.addAction(self.actionTest)
 		self.menubar.addAction(self.menuFile.menuAction())
-
+ 
 		#label setting
 		self.label = QtGui.QLabel(self.centralwidget)
 		self.label.setGeometry(QtCore.QRect(10, 15, 181, 41))
@@ -99,7 +97,7 @@ class Ui_MainWindow(object):
 		self.statusbar.setObjectName(_fromUtf8("statusbar"))
 		MainWindow.setStatusBar(self.statusbar)
 
- 		#Load Function
+		#Load Function
 		self.retranslateUi(MainWindow)
 		self.CreateTab(MainWindow)
 		self.LoadTale(MainWindow)
@@ -130,26 +128,19 @@ class Ui_MainWindow(object):
 	def LoadTale(self, MainWindow):
 		MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
 
-		#csvを配列化 
+		#initializations of arrays
 		data1 = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
 
 		#csv read
-		for i in range(2,len(data1)):
-			for j in range(0,len(data1[2])-1):
-				x = data1[i][j]
+		for column in range(2,len(data1)):
+			for row in range(0,len(data1[2])-1):
+				x = data1[column][row]
 				self.MyCombo = QtGui.QComboBox()
-				self.MyCombo.addItem(data1[i][j])
+				self.MyCombo.addItem(data1[column][row])
 				#1行目と2行目を省いてデータをセルに入力
-				self.tableWidget.setCellWidget(j,i-2,self.MyCombo)
-
-		#iniファイルでStorageの設定を行う
-		storage_setting=[]
-		self.MyCombo = QtGui.QComboBox()
-		self.MyCombo.addItem('1')
-		self.MyCombo.addItem('2')
-		self.MyCombo.addItem('3')
-		self.MyCombo.addItem('xqstrg01')
-		self.tableWidget.setCellWidget(4,0,self.MyCombo)
+				self.tableWidget.setCellWidget(row,column-2,self.MyCombo)
+				item = QtGui.QTableWidgetItem(data1[column][row])
+				self.tableWidget.setItem(row, column,item)
 
 		data = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
 
@@ -171,8 +162,24 @@ class Ui_MainWindow(object):
 		SetHorizontalLabels = self.tableWidget.setHorizontalHeaderLabels(horizontal_header)
 		self.tableWidget.setColumnCount((len(data)-2))
 
-	def FileSave(self):
-		savefile = QtGui.QFileDialog.getSaveFileName(None, 'Save Tab Axis As...', './', "CSV File (*.csv)" )
+	def FileSave(self,MainWindow):
+		#FileName
+		path = QtGui.QFileDialog.getSaveFileName(None, 'Save current As...', './', "CSV File (*.csv)" )
+		writefile=open(path,'w')
+		
+		#array of column & row data
+		with writefile:
+			for column in range(0,self.tableWidget.columnCount()):
+				rowdata = []
+				for row in range(0,self.tableWidget.rowCount()):
+					item = self.tableWidget.item(row, column)
+					csv = ",".join(rowdata)
+					if item is not None:
+						rowdata.append(item.text())
+					else:
+						rowdata.append('')
+
+				writefile.write(csv + "\n" )
 
 	def ComboSelect(self):
 		pass
