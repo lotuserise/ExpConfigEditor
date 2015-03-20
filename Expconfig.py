@@ -87,7 +87,7 @@ class Ui_MainWindow(object):
 		self.pushButton_1.setGeometry(QtCore.QRect(950, 600, 100, 50))
 		self.pushButton_1.setObjectName(_fromUtf8("pushButton"))
 		MainWindow.setCentralWidget(self.centralwidget)
-
+		self.pushButton_1.clicked.connect(self.FileLoad)
 		MainWindow.setCentralWidget(self.centralwidget)
 		self.menubar = QtGui.QMenuBar(MainWindow)
 		self.menubar.setGeometry(QtCore.QRect(0, 0, 819, 24))
@@ -131,7 +131,7 @@ class Ui_MainWindow(object):
 		#initializations of arrays
 		data1 = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
 
-		#csv read
+		#read csv file
 		for column in range(2,len(data1)):
 			for row in range(0,len(data1[2])-1):
 				x = data1[column][row]
@@ -142,12 +142,12 @@ class Ui_MainWindow(object):
 				item = QtGui.QTableWidgetItem(data1[column][row])
 				self.tableWidget.setItem(row, column,item)
 
-		data = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0]
+		data = [ v for v in csv.reader(open("exp_2015.csv", "r")) if len(v) != 0] 
 
 		#VerticalHeadderLabels
 		vertical_header=[]
 		for row in range(0,len(data[1])):
-			list1=data[1][row]
+			list1 =data[1][row]
 			vertical_header.append(list1)
 
 		setVerticalLabels = self.tableWidget.setVerticalHeaderLabels(vertical_header)
@@ -155,7 +155,7 @@ class Ui_MainWindow(object):
 
 		#HorizonalHeadderLabels
 		horizontal_header=[]
-		for col in range(2,len(data)):
+		for col in range(2,len(data) ):
 			list2=data[col][0]
 			horizontal_header.append(list2)
 
@@ -165,9 +165,9 @@ class Ui_MainWindow(object):
 	def FileSave(self,MainWindow):
 		#FileName
 		path = QtGui.QFileDialog.getSaveFileName(None, 'Save current As...', './', "CSV File (*.csv)" )
-		writefile=open(path,'w')
+		writefile=open(path,'wb')
 		
-		#array of column & row data
+		# write array of column & row data in a csv file
 		with writefile:
 			for column in range(0,self.tableWidget.columnCount()):
 				rowdata = []
@@ -176,10 +176,55 @@ class Ui_MainWindow(object):
 					csv = ",".join(rowdata)
 					if item is not None:
 						rowdata.append(item.text())
-					else:
+					else: 
 						rowdata.append('')
+				writefile.write(csv+"\n")
 
-				writefile.write(csv + "\n" )
+	def FileLoad(self,MainWindow):
+		path = QtGui.QFileDialog.getOpenFileName(None, "Open File",'CSV(*.csv)')
+		readfile=open(path,'rb')
+
+		# read array of column & row data in a csv file
+		if not path.isEmpty():
+			with readfile:
+				self.table.setRowCount(0)
+				self.table.setColumnCount(0)
+				for rowdata in csv.reader(stream):
+					row = self.table.rowCount()
+					self.table.insertRow(row)
+					self.table.setColumnCount(len(rowdata))
+					for column, data in enumerate(rowdata):
+						item = QtGui.QTableWidgetItem(data.decode('utf8'))
+						self.table.setItem(row, column, item)
+
+		#read csv file
+		for column in range(2,len(readfile)):
+			for row in range(0,len(readfile[2])-1):
+				x = readfile[column][row]
+				self.MyCombo = QtGui.QComboBox()
+				self.MyCombo.addItem(readfile[column][row])
+				#1行目と2行目を省いてデータをセルに入力
+				self.tableWidget.setCellWidget(row,column-2,self.MyCombo)
+				item = QtGui.QTableWidgetItem(readfile[column][row])
+				self.tableWidget.setItem(row, column,item)
+
+		#VerticalHeadderLabels
+		vertical_header=[]
+		for row in range(0,len(readfile[1])):
+			list1 =data[1][row]
+			vertical_header.append(list1)
+
+		setVerticalLabels = self.tableWidget.setVerticalHeaderLabels(vertical_header)
+		self.tableWidget.setRowCount((len(readfile[1])))
+
+		#HorizonalHeadderLabels
+		horizontal_header=[]
+		for col in range(2,len(readfile) ):
+			list2=data[col][0]
+			horizontal_header.append(list2)
+
+		SetHorizontalLabels = self.tableWidget.setHorizontalHeaderLabels(horizontal_header)
+		self.tableWidget.setColumnCount((len(readfile)-2))
 
 	def ComboSelect(self):
 		pass
